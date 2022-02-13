@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style-log-in.css">
+    <title>ETAP</title>
+
+</head>
+<body>
+    <div class="wrapper" id="loginto">
+        <div class="title">Log In Form</div>
+        <form>
+            <div class="field">
+                <input type="text" id="username" required>
+                <label>Username</label>
+            </div>
+            <div class="field">
+                <input type="password" id="password" required>
+                <label>Password</label>
+            </div>
+        </form>
+        <button class="btn-hover color-11" id="login">Log In</button>
+    </div>
+    
+
+    <div id="loggedin">
+
+        <p>hi you are logged in as </p>
+
+        <span id="userid"></span>
+
+        <button id="logout">logout</button>
+
+    </div>
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+
+        import {
+            getAuth, createUserWithEmailAndPassword, onAuthStateChanged
+
+            , signInWithEmailAndPassword, signOut
+        } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+
+        import {
+            getFirestore, doc, getDoc, setDoc, Timestamp, updateDoc
+
+            , arrayUnion
+        } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+
+        //write your project configuration in place of mine
+
+        //also change "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js" with yours
+
+
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCa7vCNxUzWuH8WPm0NHZvF51HFt3OsJIk",
+            authDomain: "etap-7d315.firebaseapp.com",
+            databaseURL: "https://etap-7d315-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "etap-7d315",
+            storageBucket: "etap-7d315.appspot.com",
+            messagingSenderId: "484255569365",
+            appId: "1:484255569365:web:c055f3baf7acf8f438195c",
+            measurementId: "G-9243JGQSGN"
+
+        };
+
+
+        // Initialize Firebase
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app);
+
+
+
+        const date = new Date().getDate() + " : " + ((new Date().getMonth()) - 1) + " : " + new Date().getFullYear()
+
+
+
+        onAuthStateChanged(auth, (user) => {
+
+            if (user) {
+
+                // User is signed in, see docs for a list of available properties
+
+                // https://firebase.google.com/docs/reference/js/firebase.User
+
+                const uid = user.uid;
+
+                document.getElementById("loginto").style.display = "none";
+
+                document.getElementById("loggedin").style.display = "";
+
+                document.getElementById("userid").innerHTML = uid;
+
+                console.log("USER IN")
+
+                window.location = "dashboard1.html"
+
+                // ...
+
+            } else {
+
+                document.getElementById("loginto").style.display = "";
+
+                document.getElementById("loggedin").style.display = "none";
+
+                console.log("user out")
+
+            }
+
+        });
+
+        var username, password;
+
+        document.getElementById("login").addEventListener('click', function () {
+
+            username = document.getElementById("username").value;
+
+            password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, username, password)
+
+                .then((userCredential) => {
+
+                    const user = userCredential.user;
+
+                    console.log("User Loggedin")
+
+                    readdocument();
+
+                })
+
+                .catch((error) => {
+
+                    const errorCode = error.code;
+
+                    const errorMessage = error.message;
+
+                });
+
+        })
+
+        //async is used as i will use await keyword in the function
+
+        async function readdocument() {
+
+            const docRef = doc("userID", username, date);
+
+            const docSnap = await getDoc(docRef);
+
+
+
+            if (docSnap.exists()) {
+
+                checkarray();
+                window.location = "dashboard1.html"
+
+            } else {
+
+                adddocument();
+
+            }
+
+        }
+
+
+
+        async function adddocument() {
+
+            await setDoc(doc("userID", username, date), { array: [{ "login": Timestamp.fromDate(new Date()) }] });
+
+        }
+
+
+
+        async function checkarray() {
+
+            class City {
+
+                constructor(array) {
+
+                    this.array = array;
+
+                }
+
+                toString() {
+
+                    return this.array;
+
+                }
+
+            }
+                // Firestore data converter
+    
+                const cityConverter = {
+    
+                    fromFirestore: (snapshot, options) => {
+    
+                        const data = snapshot.data(options);
+    
+                        return new City(data.array);
+    
+                    }
+    
+                }; const ref = doc(db, username, date).withConverter(cityConverter);
+    
+                const docSnap = await getDoc(ref);
+    
+                if (docSnap.data().toString() == "") {
+    
+                    adddocument();
+    
+                } else {
+    
+                    addintoarray();
+    
+                }
+    
+            }
+    
+    
+
+        async function addintoarray() { await updateDoc(doc(db, username, date), { array: arrayUnion({ "login": Timestamp.fromDate(new Date()) }) }); }
+
+
+
+
+
+        document.getElementById("logout").addEventListener('click', function () {
+
+            signOut(auth).then(() => {
+
+                addlogout();
+
+            }).catch((error) => {
+
+                console.log(errorMessage)
+
+            });
+
+        })
+
+        async function addlogout() { await updateDoc(doc(db, username, date), { array: arrayUnion({ "logout": Timestamp.fromDate(new Date()) }) }); }
+
+
+
+    </script>
+
+</body>
+
+</html>

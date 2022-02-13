@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF -8">
+        <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+        <title>How To Use</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <nav>
+            <input type="checkbox" id="check">
+            <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+            </label>
+            <label class="logo">ETAP</label>
+            <ul>
+                <li><a href="dashboard1.html">Dashboard</a></li>
+                <li><a href="filemanagement.html">Master List</a></li>
+                <li><a class ="active" a href="howtouse.html">How to Use</a></li>
+                <li><button id="logout">Log Out</button></li>
+            </ul>
+        </nav>
+        <br>
+        <br>
+        <main>
+        <details open>
+        <summary>How to add a question?</summary>
+        <div class="faq__content">
+            <ul>
+                <li>1. Fill in the blanks. </li>
+                <li>2. Click <b>INSERT</b>.</li>
+            </ul>
+        </div>
+        </details>
+    
+        <details>
+        <summary>How to update and delete?</summary>
+        <div class="faq__content">
+            <ul>
+                <li>1. Type in the topic of the question.</li>
+                <li>2. Click <b>SELECT</b>.</li>
+                <li>3. Edit the Question and click <b>UPDATE</b>.</li>
+                <li>4. Click <b>DELETE</b> to delete the question.</li>
+            </ul>
+        </div>
+        </details>
+        </main>
+        <script type="module">
+
+            //------FILLING THE TABLEEEEEEEEEEEEEEEEEE-------//
+            var controlNo = 0;
+            var tbody = document.getElementById('tbody1');
+
+            function AddItemToTable(Topic, BTax, Question) {
+                let trow = document.createElement("trow");
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+
+                let td4 = document.createElement('td');
+                let td5 = document.createElement('td');
+
+
+                td1.innerHTML = ++controlNo;
+                td2.innerHTML = Topic;
+
+                td4.innerHTML = BTax;
+                td5.innerHTML = Question;
+
+
+                trow.appendChild(td1);
+                trow.appendChild(td2);
+                trow.appendChild(td4);
+                trow.appendChild(td5);
+
+                var Configure = document.createElement("div");
+
+                trow.appendChild(Configure);
+                tbody.appendChild(trow);
+            }
+
+            function AddAllItemsToTable(MobileApplicationDev) {
+
+                controlNo = 0;
+                tbody.innerHTML = "";
+                MobileApplicationDev.forEach(element => {
+                    AddItemToTable(element.Topic, element.BTax, element.Question);
+                });
+            }
+
+            /*-------IMPORTS + CONFIG -----*/
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyCa7vCNxUzWuH8WPm0NHZvF51HFt3OsJIk",
+                authDomain: "etap-7d315.firebaseapp.com",
+                databaseURL: "https://etap-7d315-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "etap-7d315",
+                storageBucket: "etap-7d315.appspot.com",
+                messagingSenderId: "484255569365",
+                appId: "1:484255569365:web:c055f3baf7acf8f438195c",
+                measurementId: "G-9243JGQSGN"
+            };
+
+            // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        import {
+            getFirestore, doc, getDoc, getDocs, onSnapshot, collection
+        } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+
+        import {
+            getAuth, createUserWithEmailAndPassword, onAuthStateChanged
+
+            , signInWithEmailAndPassword, signOut
+        } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+
+        const auth = getAuth(app);
+        const db = getFirestore();
+const date = new Date().getDate() + " : " + ((new Date().getMonth()) - 1) + " : " + new Date().getFullYear()
+
+            //----- GET ALL DATA -----//
+
+            async function GetAllDataOnce() {
+                const querySnapshot = await getDocs(collection(db, "MobileApplicationDev"));
+                var q = [];
+
+                querySnapshot.forEach(doc => {
+                    q.push(doc.data());
+                });
+
+                AddAllItemsToTable(q);
+            }
+
+            window.onload = GetAllDataOnce;
+// ------ LOG OUT ----- //
+
+
+document.getElementById("logout").addEventListener('click', function () {
+
+signOut(auth).then(() => {
+
+    addlogout();
+    window.location = "index.html"
+
+}).catch((error) => {
+
+    console.log(errorMessage)
+
+});
+
+})
+
+async function addlogout() { await updateDoc(doc(db, username, date), { array: arrayUnion({ "logout": Timestamp.fromDate(new Date()) }) }); }
+        </script>
+    </body>
+</html>

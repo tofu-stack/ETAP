@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF - 8">
+        <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+        <title>ETAP</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src = "script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>$(function() {
+        $(document).on("click", ".transferrows", function() {
+            var getselectedvalues=$(".fl-table").parents("td").clone().appendTo($("print.html")).add(getselectedvalues);
+        })
+    })
+    </script>
+    </head>
+    <body>
+        <!----------- Header ----------->
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">ETAP</label>
+        <ul>
+            <li><a href="dashboard1.html">Dashboard</a></li>
+            <li><a class="active" href="filemanagement.html">Master List</a></li>
+            <li><a href="howtouse.html">How to Use</a></li>
+            
+        </ul>
+      </nav>
+      <!-------Table for Print-------->
+      <div style="padding:1px 16px;height:1000px;">
+        <!----------- Another Header ----------->
+        <h3></h3>
+        <br>
+        <h3></h3>
+        <style>
+            table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            th, td {
+              padding: 8px;
+              text-align: center;
+              border-bottom: 1px solid #ddd;
+            }
+            
+            tr:hover {background-color: #D8D8D8}
+            </style>
+            </head>
+            <body>
+            
+            <h2>Subjects</h2>
+            <table>
+              <tr>
+                <th><a href="updated-osandsec-table.html">Operating System and Security</a></th>
+              </tr>
+              <tr>
+                <th><a href="updated-software-table.html">Software Engineering</a></th>
+              </tr>
+              <tr>
+                <th><a href="updated-mobile-table.html">Mobile Application Development</a></th>
+              </tr>
+              <tr>
+                <th><a href="updated-privacy-table.html">Privacy</a></th>
+              </tr>
+            </table>
+            <br><br><br><br><br><br><br><br><br>
+        <!--------------FOOTER---------------->
+    <footer class="footer-distributed">
+        <div class="footer-left">
+            <img src = "nbs-college-logo.png" alt="nbs-college-logo">
+            <p class="footer-company-name">NBS College © 2021</p>
+        </div>
+        <div class="footer-center">
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p><span>3rd and 4th Floors, Sct. Borromeo cor. Quezon Avenue</span> Diliman, Quezon City</p>
+            </div>
+        <div>   
+        <i class="fa fa-phone"></i>
+            <p>(02) 8376-5090, 0917-8076850, 0961-3826332</p>
+        </div>
+        <div>
+            <i class="fa fa-envelope"></i>
+            <p><a href="test@test.com">info@nbscollege.edu.ph</a></p>
+        </div>
+        </div>
+        <div class="footer-right">
+        <p class="footer-company-about">
+            <span>About the company</span>
+            Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+            </p>
+        </div>
+    </footer>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF - 8">
+        <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+        <title>ETAP</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src = "script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>$(function() {
+        $(document).on("click", ".transferrows", function() {
+            var getselectedvalues=$(".fl-table").parents("td").clone().appendTo($("print.html")).add(getselectedvalues);
+        })
+    })
+    </script>
+    </head>
+    <body>
+        <!----------- Header ----------->
+        <nav>
+            <input type="checkbox" id="check">
+            <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+            </label>
+            <label class="logo">ETAP</label>
+            <ul>
+                <li><a href="dashboard1.html">Dashboard</a></li>
+                <li><a class="active" href="filemanagement.html">Master List</a></li>
+                <li><a href="howtouse.html">How to Use</a></li>
+                <li><button id="logout">Log Out</button></li>
+            </ul>
+        </nav>
+      <div style="padding:1px 16px;height:1000px;">
+        <!----------- Another Header ----------->
+        <h2>Questions</h2>
+        <h3>Privacy</h3>
+        <div class="table-wrapper" class="table-responsive-sm" id="table">
+            <table class="fl-table">
+                <thead>
+                <tr>
+                    <th>Question Number</th>
+                    <th>Topic</th>
+                    <th>Bloom's Taxonomy Level</th>
+                    <th>Question</th>
+                </tr>
+                </thead>
+                <tbody id="tbody1"></tbody>
+            </table>
+        </div>
+
+        <!-------BUTTON-------->
+        <div id = "print">
+            <button class="btn-hover color-11" button id="insbtn" button onclick="location.href='privacy.html'">EDIT</button>
+            <button type="button" class="btn-hover color-9" onclick = "generatePDF()">GENERATE REPORT</button>
+            
+        </div>
+        <!--------------FOOTER---------------->
+    <footer class="footer-distributed">
+        <div class="footer-left">
+            <img src = "nbs-college-logo.png" alt="nbs-college-logo">
+            <p class="footer-company-name">NBS College © 2021</p>
+        </div>
+        <div class="footer-center">
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p><span>3rd and 4th Floors, Sct. Borromeo cor. Quezon Avenue</span> Diliman, Quezon City</p>
+            </div>
+        <div>   
+        <i class="fa fa-phone"></i>
+            <p>(02) 8376-5090, 0917-8076850, 0961-3826332</p>
+        </div>
+        <div>
+            <i class="fa fa-envelope"></i>
+            <p><a href="test@test.com">info@nbscollege.edu.ph</a></p>
+        </div>
+        </div>
+        <div class="footer-right">
+        <p class="footer-company-about">
+            <span>About the company</span>
+            Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+            </p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script type="module">
+
+            //------FILLING THE TABLEEEEEEEEEEEEEEEEEE-------//
+            var controlNo = 0;
+            var tbody = document.getElementById('tbody1');
+
+            function AddItemToTable(Topic, BTax, Question) {
+                let trow = document.createElement("trow");
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+
+                let td4 = document.createElement('td');
+                let td5 = document.createElement('td');
+
+
+                td1.innerHTML = ++controlNo;
+                td2.innerHTML = Topic;
+
+                td4.innerHTML = BTax;
+                td5.innerHTML = Question;
+
+
+                trow.appendChild(td1);
+                trow.appendChild(td2);
+
+                trow.appendChild(td4);
+                trow.appendChild(td5);
+
+                var Configure = document.createElement("div");
+
+                trow.appendChild(Configure);
+                tbody.appendChild(trow);
+            }
+
+            function AddAllItemsToTable(Privacy) {
+
+                controlNo = 0;
+                tbody.innerHTML = "";
+                Privacy.forEach(element => {
+                    AddItemToTable(element.Topic, element.BTax, element.Question);
+                });
+            }
+
+            /*-------IMPORTS + CONFIG -----*/
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyCa7vCNxUzWuH8WPm0NHZvF51HFt3OsJIk",
+                authDomain: "etap-7d315.firebaseapp.com",
+                databaseURL: "https://etap-7d315-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "etap-7d315",
+                storageBucket: "etap-7d315.appspot.com",
+                messagingSenderId: "484255569365",
+                appId: "1:484255569365:web:c055f3baf7acf8f438195c",
+                measurementId: "G-9243JGQSGN"
+            };
+
+           // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        import {
+            getFirestore, doc, getDoc, getDocs, onSnapshot, collection
+        } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+
+        import {
+            getAuth, createUserWithEmailAndPassword, onAuthStateChanged
+
+            , signInWithEmailAndPassword, signOut
+        } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+
+        const auth = getAuth(app);
+        const db = getFirestore();
+const date = new Date().getDate() + " : " + ((new Date().getMonth()) - 1) + " : " + new Date().getFullYear()
+
+            //----- GET ALL DATA -----//
+
+            async function GetAllDataOnce() {
+                const querySnapshot = await getDocs(collection(db, "Privacy"));
+                var q = [];
+
+                querySnapshot.forEach(doc => {
+                    q.push(doc.data());
+                });
+
+                AddAllItemsToTable(q);
+            }
+
+            window.onload = GetAllDataOnce;
+            // ------ LOG OUT ----- //
+
+
+document.getElementById("logout").addEventListener('click', function () {
+
+signOut(auth).then(() => {
+
+    addlogout();
+    window.location = "index.html"
+
+}).catch((error) => {
+
+    console.log(errorMessage)
+
+});
+
+})
+
+async function addlogout() { await updateDoc(doc(db, username, date), { array: arrayUnion({ "logout": Timestamp.fromDate(new Date()) }) }); }
+
+
+
+        </script>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="pdfscript.js"></script>
+</html>
